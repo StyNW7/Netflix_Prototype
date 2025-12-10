@@ -21,6 +21,7 @@ import LoadingScreen from "./pages/Utility/LoadingScreen";
 // Pages
 
 import LandingPage from "@/pages/Landing/page";
+import FYPPage from "./pages/FYP/page";
 
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
 
           <Routes>
 
-            
+            <Route path="/fyp" element={<FYPPage />} />
 
             <Route path="/" element={<Layout />}>
               
