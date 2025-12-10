@@ -22,6 +22,7 @@ import LoadingScreen from "./pages/Utility/LoadingScreen";
 
 import LandingPage from "@/pages/Landing/page";
 import FYPPage from "./pages/FYP/page";
+import HomePage from "./pages/Home/page";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
           <Routes>
 
             <Route path="/fyp" element={<FYPPage />} />
+            <Route path="/home" element={<HomePage />} />
 
             <Route path="/" element={<Layout />}>
               
