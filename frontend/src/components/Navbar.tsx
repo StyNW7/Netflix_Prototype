@@ -1,118 +1,91 @@
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import ModeToggle from "@/components/theme-toggle"
+"use client"
 
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { Menu, X } from "lucide-react"
 
 export default function Navbar() {
-
   const [isOpen, setIsOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const location = useLocation();
-  const pathname = location.pathname;
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    if (isOpen) setIsOpen(false)
-  }, [pathname])
-
-  if (!mounted) return null
+  const navLinks = [
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "How it Works", href: "#how-it-works" },
+    { name: "FAQ", href: "#faq" },
+  ]
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <a href="/" className="flex items-center space-x-2">
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="font-bold text-xl"
-          >
-            NW
-          </motion.div>
-        </a>
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? "bg-black/80 backdrop-blur-lg border-b border-white/10" : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <a href="/" className="flex items-center gap-2">
+            <span className="netflix-text text-2xl">NETFLIX</span>
+          </a>
 
-        <nav className="hidden md:flex items-center gap-6">
-          {navItems.map((item, index) => (
-            <motion.div
-              key={item.href}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
               <a
-                href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  pathname === item.href ? "text-foreground" : "text-muted-foreground"
-                }`}
+                key={link.name}
+                href={link.href}
+                className="text-sm font-medium hover:text-primary transition-colors duration-300"
               >
-                {item.label}
-                {pathname === item.href && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="h-0.5 bg-primary mt-1"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
+                {link.name}
               </a>
-            </motion.div>
-          ))}
-        </nav>
+            ))}
+          </div>
 
-        <div className="flex items-center gap-2">
-          <ModeToggle />
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle menu</span>
-          </Button>
+          {/* CTA Button */}
+          <div className="hidden md:block">
+            <button className="bg-primary hover:bg-red-700 text-white px-6 py-2 rounded font-semibold transition-colors duration-300">
+              Sign In
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-      </div>
 
-      {/* Mobile menu */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
-          className="md:hidden border-b"
-        >
-          <div className="container py-4">
-            <nav className="flex flex-col gap-4">
-              {navItems.map((item) => (
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="md:hidden bg-black/95 border-b border-white/10 py-4 animate-slideInLeft">
+            <div className="flex flex-col gap-4 px-4">
+              {navLinks.map((link) => (
                 <a
-                  key={item.href}
-                  href={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    pathname === item.href ? "text-foreground" : "text-muted-foreground"
-                  }`}
+                  key={link.name}
+                  href={link.href}
+                  className="text-sm font-medium hover:text-primary transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  {item.label}
+                  {link.name}
                 </a>
               ))}
-            </nav>
+              <button className="bg-primary hover:bg-red-700 text-white w-full py-2 rounded font-semibold transition-colors">
+                Sign In
+              </button>
+            </div>
           </div>
-        </motion.div>
-      )}
-    </header>
+        )}
+      </div>
+    </nav>
   )
 }
-
-const navItems = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "About",
-    href: "/about",
-  },
-]
