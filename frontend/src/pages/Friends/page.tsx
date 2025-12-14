@@ -9,57 +9,62 @@ const NetflixFriends = () => {
     {
       id: 1,
       name: 'Alex Chen',
-      avatar: '👨‍💼',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
       action: 'is watching',
       content: 'Dark',
       details: 'Season 2 • Episode 3',
       time: '2h ago',
       badge: 'Similar Taste 87%',
-      badgeColor: 'from-green-600 to-emerald-600'
+      badgeColor: 'from-green-600 to-emerald-600',
+      contentImage: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=600&h=400&fit=crop'
     },
     {
       id: 2,
       name: 'Maria Rodriguez',
-      avatar: '👩‍🎨',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face',
       action: 'rated',
       content: 'Dune: Part Two',
       details: '9/10',
       time: '5h ago',
       badge: 'Verified Reviewer',
-      badgeColor: 'from-blue-600 to-blue-700'
+      badgeColor: 'from-blue-600 to-blue-700',
+      contentImage: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&h=400&fit=crop'
     },
     {
       id: 3,
       name: 'James Wilson',
-      avatar: '👨‍🔬',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face',
       action: 'shared a theory about',
       content: 'Interstellar',
       details: 'Time paradox explained',
       time: '1d ago',
       badge: 'Verified Reviewer',
-      badgeColor: 'from-blue-600 to-blue-700'
+      badgeColor: 'from-blue-600 to-blue-700',
+      contentImage: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=600&h=400&fit=crop'
     },
     {
       id: 4,
       name: 'Sophie Lin',
-      avatar: '👩‍💻',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face',
       action: 'added to watchlist',
       content: 'The Crown',
       details: 'Season 6',
       time: '1d ago',
       badge: 'Similar Taste 92%',
-      badgeColor: 'from-green-600 to-emerald-600'
+      badgeColor: 'from-green-600 to-emerald-600',
+      contentImage: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&h=400&fit=crop'
     },
     {
       id: 5,
       name: 'Marcus Johnson',
-      avatar: '👨‍🎓',
+      avatar: 'https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=400&h=400&fit=crop&crop=face',
       action: 'finished watching',
       content: 'Breaking Bad',
       details: 'All 5 seasons',
       time: '2d ago',
       badge: 'Similar Taste 79%',
-      badgeColor: 'from-green-600 to-emerald-600'
+      badgeColor: 'from-green-600 to-emerald-600',
+      contentImage: 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=600&h=400&fit=crop'
     }
   ];
 
@@ -67,42 +72,47 @@ const NetflixFriends = () => {
     {
       id: 1,
       title: 'Oppenheimer',
-      image: '🎬',
+      image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop',
       friends: 5,
       rating: 9.2,
-      genre: 'Biography, Drama'
+      genre: 'Biography, Drama',
+      year: 2023
     },
     {
       id: 2,
       title: 'The Last of Us',
-      image: '🎮',
+      image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&h=600&fit=crop',
       friends: 8,
       rating: 9.5,
-      genre: 'Drama, Sci-Fi'
+      genre: 'Drama, Sci-Fi',
+      year: 2023
     },
     {
       id: 3,
       title: 'Succession',
-      image: '💼',
+      image: 'https://images.unsplash.com/photo-1551029506-0807df4e2031?w=400&h=600&fit=crop',
       friends: 3,
       rating: 8.9,
-      genre: 'Drama'
+      genre: 'Drama',
+      year: 2023
     },
     {
       id: 4,
       title: 'The Bear',
-      image: '🍳',
+      image: 'https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=400&h=600&fit=crop',
       friends: 4,
       rating: 9.1,
-      genre: 'Drama, Comedy'
+      genre: 'Drama, Comedy',
+      year: 2022
     },
     {
       id: 5,
       title: 'Stranger Things',
-      image: '👾',
+      image: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=400&h=600&fit=crop',
       friends: 12,
       rating: 8.7,
-      genre: 'Sci-Fi, Horror'
+      genre: 'Sci-Fi, Horror',
+      year: 2022
     }
   ];
 
@@ -110,34 +120,38 @@ const NetflixFriends = () => {
     {
       id: 1,
       name: 'Emma Thompson',
-      avatar: '👩‍🦰',
+      avatar: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w-400&h=400&fit=crop&crop=face',
       similarity: 94,
       genres: ['Sci-Fi', 'Thriller', 'Drama'],
-      mutualFriends: 3
+      mutualFriends: 3,
+      lastActive: 'Active now'
     },
     {
       id: 2,
       name: 'David Park',
-      avatar: '👨‍🦱',
+      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w-400&h=400&fit=crop&crop=face',
       similarity: 89,
       genres: ['Action', 'Crime', 'Drama'],
-      mutualFriends: 5
+      mutualFriends: 5,
+      lastActive: '2h ago'
     },
     {
       id: 3,
       name: 'Lisa Anderson',
-      avatar: '👩‍🦳',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w-400&h=400&fit=crop&crop=face',
       similarity: 85,
       genres: ['Romance', 'Comedy', 'Drama'],
-      mutualFriends: 2
+      mutualFriends: 2,
+      lastActive: '5h ago'
     },
     {
       id: 4,
       name: 'Ryan Martinez',
-      avatar: '👨‍🦲',
+      avatar: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w-400&h=400&fit=crop&crop=face',
       similarity: 82,
       genres: ['Horror', 'Thriller', 'Mystery'],
-      mutualFriends: 4
+      mutualFriends: 4,
+      lastActive: '1d ago'
     }
   ];
 
@@ -175,13 +189,36 @@ const NetflixFriends = () => {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Hero Section */}
-        <div className="mb-12 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-red-100 to-red-300 bg-clip-text text-transparent">
-            Friends Activity
-          </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Discover what people with similar taste are watching
-          </p>
+        <div className="mb-12 text-center relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-gray-900 via-black to-red-950 border border-gray-800">
+          <div className="absolute inset-0 opacity-20">
+            <img 
+              src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&h=400&fit=crop" 
+              alt="Background" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="relative z-10">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-red-100 to-red-300 bg-clip-text text-transparent">
+              Friends Activity
+            </h1>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Discover what people with similar taste are watching
+            </p>
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <div className="flex -space-x-3">
+                {friendsActivity.slice(0, 4).map((friend) => (
+                  <div key={friend.id} className="w-12 h-12 rounded-full border-2 border-gray-900 overflow-hidden">
+                    <img 
+                      src={friend.avatar} 
+                      alt={friend.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+              <span className="text-gray-400">+{friendsActivity.length} friends online</span>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -192,6 +229,9 @@ const NetflixFriends = () => {
                 <Clock className="w-6 h-6 text-red-600" />
                 Recent Activity
               </h2>
+              <button className="text-sm text-gray-400 hover:text-white transition-colors">
+                View all activity →
+              </button>
             </div>
 
             {/* Activity Cards */}
@@ -204,8 +244,12 @@ const NetflixFriends = () => {
                   <div className="flex items-start gap-4">
                     {/* Avatar */}
                     <div className="flex-shrink-0">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-2xl ring-2 ring-red-600/20 group-hover:ring-red-600/50 transition-all">
-                        {activity.avatar}
+                      <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-red-600/20 group-hover:ring-red-600/50 transition-all">
+                        <img 
+                          src={activity.avatar} 
+                          alt={activity.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     </div>
 
@@ -225,6 +269,15 @@ const NetflixFriends = () => {
                       </div>
 
                       <p className="text-gray-500 text-sm mb-3">{activity.details}</p>
+
+                      {/* Content Preview */}
+                      <div className="mb-3 rounded-lg overflow-hidden border border-gray-800 max-w-xs">
+                        <img 
+                          src={activity.contentImage} 
+                          alt={activity.content}
+                          className="w-full h-32 object-cover"
+                        />
+                      </div>
 
                       {/* Badge */}
                       <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-gray-800 to-gray-900 rounded-full border border-gray-700">
@@ -288,11 +341,23 @@ const NetflixFriends = () => {
                     key={user.id}
                     className="flex items-start gap-3 p-3 rounded-xl bg-gray-800/30 hover:bg-gray-800/50 transition-all border border-transparent hover:border-red-600/30"
                   >
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-xl flex-shrink-0">
-                      {user.avatar}
+                    <div className="relative">
+                      <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-red-600/20">
+                        <img 
+                          src={user.avatar} 
+                          alt={user.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      {user.lastActive === 'Active now' && (
+                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-1 ring-gray-900"></div>
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm mb-1">{user.name}</div>
+                      <div className="flex items-start justify-between mb-1">
+                        <div className="font-medium text-sm">{user.name}</div>
+                        <span className="text-xs text-gray-500">{user.lastActive}</span>
+                      </div>
                       <div className="flex items-center gap-1.5 mb-2">
                         <div className="w-full bg-gray-700 rounded-full h-1.5">
                           <div
@@ -314,6 +379,9 @@ const NetflixFriends = () => {
                           </span>
                         ))}
                       </div>
+                      <div className="text-xs text-gray-400 mb-2">
+                        {user.mutualFriends} mutual friends
+                      </div>
                       <button
                         onClick={() => handleFollow(user.id)}
                         className={`w-full px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
@@ -329,14 +397,42 @@ const NetflixFriends = () => {
                 ))}
               </div>
             </div>
+
+            {/* Stats Card */}
+            <div className="bg-gradient-to-br from-red-900/20 to-red-950/30 rounded-2xl p-6 border border-red-900/30">
+              <h3 className="font-bold text-lg mb-4">Your Stats</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center p-4 bg-gray-900/50 rounded-xl">
+                  <div className="text-2xl font-bold text-red-500">24</div>
+                  <div className="text-sm text-gray-400">Friends</div>
+                </div>
+                <div className="text-center p-4 bg-gray-900/50 rounded-xl">
+                  <div className="text-2xl font-bold text-green-500">87%</div>
+                  <div className="text-sm text-gray-400">Match Rate</div>
+                </div>
+                <div className="text-center p-4 bg-gray-900/50 rounded-xl">
+                  <div className="text-2xl font-bold text-yellow-500">156</div>
+                  <div className="text-sm text-gray-400">Shows Watched</div>
+                </div>
+                <div className="text-center p-4 bg-gray-900/50 rounded-xl">
+                  <div className="text-2xl font-bold text-blue-500">42</div>
+                  <div className="text-sm text-gray-400">Reviews</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Recommended by Friends Section */}
         <div className="mt-16">
-          <div className="flex items-center gap-3 mb-6">
-            <Award className="w-7 h-7 text-red-600" />
-            <h2 className="text-3xl font-bold">Recommended by Friends</h2>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <Award className="w-7 h-7 text-red-600" />
+              <h2 className="text-3xl font-bold">Recommended by Friends</h2>
+            </div>
+            <button className="text-gray-400 hover:text-white transition-colors text-sm">
+              See all recommendations →
+            </button>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -346,12 +442,21 @@ const NetflixFriends = () => {
                 className="group relative bg-gradient-to-br from-gray-900 to-black rounded-xl overflow-hidden border border-gray-800 hover:border-red-600/50 transition-all duration-300 hover:shadow-xl hover:shadow-red-600/20 hover:-translate-y-2"
               >
                 {/* Movie Poster */}
-                <div className="aspect-[2/3] bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-6xl relative overflow-hidden">
-                  {movie.image}
+                <div className="aspect-[2/3] relative overflow-hidden">
+                  <img 
+                    src={movie.image} 
+                    alt={movie.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform">
+                    <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform shadow-2xl">
                       <Play className="w-8 h-8 text-white ml-1" />
                     </div>
+                  </div>
+                  {/* Year Badge */}
+                  <div className="absolute top-2 left-2 px-2 py-1 bg-black/80 backdrop-blur-sm rounded text-xs font-medium">
+                    {movie.year}
                   </div>
                 </div>
 
@@ -379,8 +484,52 @@ const NetflixFriends = () => {
                 <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center ring-2 ring-blue-600/30">
                   <CheckCircle className="w-5 h-5 text-white" />
                 </div>
+
+                {/* Netflix Logo Overlay */}
+                <div className="absolute bottom-2 right-2 text-xs font-bold text-red-600 bg-black/80 px-2 py-1 rounded">
+                  N
+                </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Trending Now Section */}
+        <div className="mt-16">
+          <h2 className="text-3xl font-bold mb-6">Trending in Your Circle</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="relative rounded-2xl overflow-hidden group">
+              <img 
+                src="https://images.unsplash.com/photo-1595769812729-76a9261a3308?w=800&h=400&fit=crop" 
+                alt="Trending Show"
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="px-2 py-1 bg-red-600 rounded text-xs font-bold">TRENDING</div>
+                  <div className="text-sm text-gray-300">#1 in your network</div>
+                </div>
+                <h3 className="text-2xl font-bold">Sci-Fi Marathon</h3>
+                <p className="text-gray-300">12 friends are watching this genre now</p>
+              </div>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden group">
+              <img 
+                src="https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=800&h=400&fit=crop" 
+                alt="Popular Movie"
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="px-2 py-1 bg-yellow-600 rounded text-xs font-bold">HOT</div>
+                  <div className="text-sm text-gray-300">8 reviews this week</div>
+                </div>
+                <h3 className="text-2xl font-bold">Critics' Choice</h3>
+                <p className="text-gray-300">Top rated movies among friends</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

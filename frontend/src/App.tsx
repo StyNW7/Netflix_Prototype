@@ -30,6 +30,9 @@ import CreateForumPage from "./pages/Forum/create";
 import ForumDetailPage from "./pages/Forum/[id]/page";
 import NetflixFeaturesHome from "./pages/Landing/features";
 import NetflixFriends from "./pages/Friends/page";
+import NetflixSavingMode from "./pages/Saving/page";
+import NetflixDashboard from "./pages/Dashboard/page";
+// import FriendsPage from "./pages/Friends/page2";
 
 function App() {
 
@@ -61,6 +64,11 @@ function App() {
             <Route path="/forum" element={<ForumPage />} />
 
             <Route path="/friends" element={<NetflixFriends />} />
+            {/* <Route path="/friends" element={<FriendsPage />} /> */}
+
+            <Route path="/saving" element={<NetflixSavingMode />} />
+
+            <Route path="/dashboard" element={<NetflixDashboard />} />
 
             <Route path="/forum/create" element={<CreateForumPage />} />
             <Route path="/forum/:id" element={<ForumDetailPage />} />
