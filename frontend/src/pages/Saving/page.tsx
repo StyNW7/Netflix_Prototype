@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { Battery, BatteryCharging, Leaf, Moon, Power, Zap, Clock, TrendingDown, Info, Check, Settings, Globe } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const NetflixSavingMode = () => {
+
+  const navigate = useNavigate()
   const [savingModeEnabled, setSavingModeEnabled] = useState(true);
   const [currentMode, setCurrentMode] = useState('balanced');
   const [autoPauseTime, setAutoPauseTime] = useState(15);
@@ -70,7 +73,7 @@ const NetflixSavingMode = () => {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-lg border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate("/")}>
             <div className="text-red-600 font-bold text-3xl">NETFLIX</div>
             <div className="h-6 w-px bg-gray-700" />
             <div className="flex items-center gap-2 text-xl font-semibold">

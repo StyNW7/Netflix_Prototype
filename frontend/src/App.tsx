@@ -21,7 +21,7 @@ import LoadingScreen from "./pages/Utility/LoadingScreen";
 // Pages
 
 import LandingPage from "@/pages/Landing/page";
-import FYPPage from "./pages/FYP/page";
+import FYPPage from "./pages/FYP/page2";
 import HomePage from "./pages/Home/page";
 import WatchPage from "./pages/Film/page2";
 import ForumPage from "./pages/Forum/page";
@@ -57,22 +57,44 @@ function App() {
 
           <Routes>
 
-            <Route path="/" element={<NetflixFeaturesHome />} />
-            <Route path="/watch" element={<WatchPage />} />
-            <Route path="/fyp" element={<FYPPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/forum" element={<ForumPage />} />
+            {/* Features List (Landing Page) */}
 
+            <Route path="/" element={<NetflixFeaturesHome />} />
+
+            {/* Netflix Bot */}
+
+            <Route path="/watch" element={<WatchPage />} />
+
+            {/* Netflix FYP */}
+
+            <Route path="/fyp" element={<FYPPage />} />
+            
+            {/* Netflix Friends */}
             <Route path="/friends" element={<NetflixFriends />} />
             {/* <Route path="/friends" element={<FriendsPage />} /> */}
 
+
+            {/* Netflix Saving Mode */}
+
             <Route path="/saving" element={<NetflixSavingMode />} />
 
+            {/* Netflix Dashboard */}
             <Route path="/dashboard" element={<NetflixDashboard />} />
 
+            {/* Netflix Forum */}
+            <Route path="/forum" element={<ForumPage />} />
             <Route path="/forum/create" element={<CreateForumPage />} />
             <Route path="/forum/:id" element={<ForumDetailPage />} />
+
+
+            {/* Not Found Page */}
             <Route path="*" element={<NotFoundPage />} />
+
+
+            {/* Archieved */}
+
+            <Route path="/home" element={<HomePage />} />
+            
 
             <Route path="/" element={<Layout />}>
               
