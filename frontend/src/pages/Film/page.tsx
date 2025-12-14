@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import type React from "react"
@@ -29,7 +29,6 @@ export default function WatchPage() {
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(1)
   const [showControls, setShowControls] = useState(true)
-  const [playbackSpeed, setPlaybackSpeed] = useState(1)
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)

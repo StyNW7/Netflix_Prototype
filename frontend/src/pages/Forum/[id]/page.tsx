@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState } from "react"
@@ -30,7 +29,7 @@ export default function ForumDetailPage() {
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [replyContent, setReplyContent] = useState("")
   const [replies, setReplies] = useState(mockReplies)
-  const [replyingTo, setReplyingTo] = useState<number | null>(null)
+  const [, setReplyingTo] = useState<number | null>(null)
 
   const post = mockPost
 

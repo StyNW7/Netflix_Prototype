@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import type React from "react"
@@ -25,7 +24,7 @@ interface ChatbotSidebarProps {
   movieDescription: string
 }
 
-export default function ChatbotSidebar({ isOpen, onClose, movieTitle, movieDescription }: ChatbotSidebarProps) {
+export default function ChatbotSidebar({ isOpen, onClose, movieTitle }: ChatbotSidebarProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",

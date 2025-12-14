@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Play,
@@ -25,7 +24,7 @@ const NetflixPlayer: React.FC = () => {
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(100);
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(180); // 3 minutes demo
+  const [duration, ] = useState<number>(180); // 3 minutes demo
   const [showControls, setShowControls] = useState<boolean>(true);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([
