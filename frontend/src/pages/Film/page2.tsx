@@ -8,10 +8,13 @@ import {
   Settings,
   SkipBack,
   SkipForward,
-  MessageSquare,
   X,
   Send,
   Loader2,
+  Bot,
+  Sparkles,
+  Clock,
+  Star,
 } from 'lucide-react';
 
 type Message = {
@@ -20,17 +23,17 @@ type Message = {
 };
 
 const NetflixPlayer: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(100);
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, ] = useState<number>(180); // 3 minutes demo
+  const [volume, setVolume] = useState<number>(80);
+  const [currentTime, setCurrentTime] = useState<number>(45);
+  const [duration] = useState<number>(180); // 3 minutes demo
   const [showControls, setShowControls] = useState<boolean>(true);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi! I'm Netflix Bot. Ask me anything about this movie, the cast, plot, or get personalized recommendations!",
+      content: "Hello! I'm your Netflix AI Assistant. I can help you with anything about 'Echoes of Tomorrow' - ask about the plot, cast, or get personalized recommendations!",
     },
   ]);
   const [inputMessage, setInputMessage] = useState<string>('');
@@ -38,6 +41,13 @@ const NetflixPlayer: React.FC = () => {
   
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // const suggestions: Suggestion[] = [
+  //   { id: 1, text: "What's the plot?", icon: <Film className="w-4 h-4" /> },
+  //   { id: 2, text: "Who are the main actors?", icon: <Users className="w-4 h-4" /> },
+  //   { id: 3, text: "Explain the ending", icon: <HelpCircle className="w-4 h-4" /> },
+  //   { id: 4, text: "Similar movies?", icon: <Sparkles className="w-4 h-4" /> },
+  // ];
 
   // Format time helper function
   const formatTime = useCallback((seconds: number): string => {
@@ -103,6 +113,43 @@ const NetflixPlayer: React.FC = () => {
     setCurrentTime((prev) => Math.max(0, Math.min(prev + seconds, duration)));
   };
 
+  const getAIResponse = (userMessage: string): string => {
+    const message = userMessage.toLowerCase();
+    
+    if (message.includes('plot') || message.includes('story') || message.includes('about')) {
+      return "Echoes of Tomorrow is a mind-bending sci-fi thriller about Dr. Sarah Chen, a quantum physicist who discovers a way to communicate with parallel dimensions. As she navigates through different timelines, she must prevent a catastrophic event that threatens to collapse all realities. The film explores themes of destiny, choice, and the interconnectedness of all things.";
+    } else if (message.includes('cast') || message.includes('actor') || message.includes('actress')) {
+      return "The film stars Emma Stone as Dr. Sarah Chen, bringing emotional depth to the brilliant physicist. Oscar Isaac plays Marcus Vale, her mysterious colleague with hidden motives. Supporting cast includes Michael B. Jordan as Agent Harris and Florence Pugh as Dr. Elena Rodriguez. The ensemble delivers powerful performances under Denis Villeneuve's visionary direction.";
+    } else if (message.includes('ending') || message.includes('end') || message.includes('conclusion')) {
+      return "Without spoilers: The ending reveals that every choice creates a new timeline, and Sarah learns that true power lies in accepting all possibilities. The final scene suggests that the 'echoes' she's been hearing are actually versions of herself from other dimensions working together—a beautiful metaphor for self-acceptance and unity across all realities.";
+    } else if (message.includes('similar') || message.includes('recommend') || message.includes('like this')) {
+      return "If you enjoy Echoes of Tomorrow, I recommend: 1) 'Arrival' for its intelligent sci-fi concepts, 2) 'Inception' for mind-bending reality shifts, 3) 'Everything Everywhere All at Once' for multidimensional storytelling, and 4) 'Interstellar' for its emotional sci-fi depth. All are available on Netflix!";
+    } else if (message.includes('director') || message.includes('directed')) {
+      return "Echoes of Tomorrow is directed by Denis Villeneuve, known for his masterful work on Dune, Arrival, and Blade Runner 2049. His signature style of grand visuals, atmospheric storytelling, and intellectual depth is evident throughout this film. This marks his first collaboration with cinematographer Greig Fraser on a Netflix Original.";
+    } else if (message.includes('time') || message.includes('duration') || message.includes('long')) {
+      return "The film runtime is 2 hours and 18 minutes. It premiered on Netflix on March 15, 2024, and has been streamed over 85 million times in its first month. The pacing is deliberate, allowing the complex narrative to unfold naturally while keeping viewers engaged with stunning visuals and thought-provoking concepts.";
+    } else if (message.includes('rating') || message.includes('review') || message.includes('score')) {
+      return "Critics praise the film with 94% on Rotten Tomatoes and 8.3/10 on IMDb. Reviewers highlight 'visionary direction,' 'stellar performances,' and 'intellectually satisfying storytelling.' Audiences particularly love the emotional depth and stunning visual effects that seamlessly blend practical and digital artistry.";
+    } else if (message.includes('award') || message.includes('nomination') || message.includes('oscar')) {
+      return "The film has received 6 Oscar nominations including Best Picture, Best Director (Denis Villeneuve), Best Actress (Emma Stone), Best Cinematography, Best Visual Effects, and Best Original Score. It won the Critics' Choice Award for Best Sci-Fi Film and has 8 nominations for the upcoming Stream Awards.";
+    } else {
+      return "I'm your dedicated Netflix AI Assistant! I can help you understand Echoes of Tomorrow better—ask about the plot, characters, themes, or recommendations for similar movies. Feel free to ask anything specific about this film or if you'd like me to explain any particular scene you're watching right now!";
+    }
+  };
+
+  // const handleSuggestionClick = (suggestion: string) => {
+  //   const userMessage = suggestion;
+  //   setInputMessage('');
+  //   setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
+  //   setIsLoading(true);
+
+  //   setTimeout(() => {
+  //     const response = getAIResponse(userMessage);
+  //     setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
+  //     setIsLoading(false);
+  //   }, 800);
+  // };
+
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
 
@@ -111,52 +158,12 @@ const NetflixPlayer: React.FC = () => {
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
-    try {
-      // IMPORTANT: Replace with your actual API endpoint and use environment variables
-      const apiKey = process.env.REACT_APP_ANTHROPIC_API_KEY || '';
-      const apiUrl = process.env.REACT_APP_ANTHROPIC_API_URL || 'https://api.anthropic.com/v1/messages';
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-        },
-        body: JSON.stringify({
-          model: 'claude-3-sonnet-20240229',
-          max_tokens: 1000,
-          system:
-            'You are Netflix Bot, an AI assistant integrated into Netflix. You help users with questions about the movie "Echoes of Tomorrow" - a sci-fi thriller about time travel and parallel dimensions. The cast includes Emma Stone as Dr. Sarah Chen, Oscar Isaac as Marcus Vale, and directed by Denis Villeneuve. Be conversational, helpful, and enthusiastic about movies. Keep responses concise (2-3 sentences) unless asked for more detail.',
-          messages: [
-            ...messages.map((m) => ({ role: m.role, content: m.content })),
-            { role: 'user', content: userMessage },
-          ],
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
-      }
-
-      const data = await response.json();
-      const assistantMessage = data.content
-        .filter((item: { type: string }) => item.type === 'text')
-        .map((item: { text: string }) => item.text)
-        .join('\n');
-
-      setMessages((prev) => [...prev, { role: 'assistant', content: assistantMessage }]);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: 'Sorry, I\'m having trouble connecting right now. Please try again later!',
-        },
-      ]);
-    } finally {
+    // Simulate API call with hardcoded responses
+    setTimeout(() => {
+      const response = getAIResponse(userMessage);
+      setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -176,35 +183,65 @@ const NetflixPlayer: React.FC = () => {
   const progressPercentage = (currentTime / duration) * 100;
 
   return (
-    <div className="relative w-full h-screen bg-black overflow-hidden flex">
+    <div className="relative w-full h-screen bg-black overflow-hidden flex font-sans">
       {/* Main Video Player Area */}
-      <div className={`relative flex-1 transition-all duration-300 ${isChatOpen ? 'mr-96' : ''}`}>
+      <div className={`relative flex-1 transition-all duration-500 ease-in-out ${isChatOpen ? 'mr-96' : ''}`}>
         {/* Video Container */}
         <div
-          className="relative w-full h-full bg-gradient-to-br from-gray-900 via-black to-red-950"
+          className="relative w-full h-full bg-gradient-to-br from-gray-950 via-black to-red-950/20"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Simulated Video Content */}
+          {/* Simulated Video Content with animated background */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-6xl font-bold text-red-600 mb-4">ECHOES OF TOMORROW</div>
-              <div className="text-2xl text-gray-400">A Netflix Original Film</div>
+            <div className="text-center space-y-6">
+              <div className="relative">
+                <div className="text-7xl font-black tracking-tight bg-gradient-to-r from-red-500 via-red-500 to-red-600 bg-clip-text text-transparent mb-2">
+                  ECHOES
+                </div>
+                <div className="text-5xl font-light text-gray-300 tracking-widest">OF TOMORROW</div>
+                <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-red-500/10 to-red-500/5 blur-2xl rounded-full" />
+              </div>
+              <div className="flex items-center justify-center gap-6 text-gray-400">
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-500 fill-current" />
+                  <span className="font-medium">8.3/10</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5" />
+                  <span>2h 18m</span>
+                </div>
+                <div className="px-3 py-1 bg-red-600/20 border border-red-600/30 rounded-full text-sm">
+                  SCI-FI THRILLER
+                </div>
+              </div>
             </div>
           </div>
 
+          {/* Floating elements for visual interest */}
+          <div className="absolute top-1/4 left-10 w-32 h-32 bg-red-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-10 w-40 h-40 bg-red-500/5 rounded-full blur-3xl" />
+
           {/* Top Gradient Overlay */}
           <div
-            className={`absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent transition-opacity duration-300 ${
+            className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black via-black/90 to-transparent transition-all duration-500 ${
               showControls ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <div className="p-6 flex items-center justify-between">
-              <button className="text-white hover:text-red-600 transition-colors">
-                <X className="w-8 h-8" />
+            <div className="p-8 flex items-center justify-between">
+              <button className="text-white hover:text-red-400 transition-colors duration-300 group">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center group-hover:bg-black/60 transition-colors">
+                    <X className="w-5 h-5" />
+                  </div>
+                  <span className="font-medium">Exit</span>
+                </div>
               </button>
-              <div className="text-white text-lg font-semibold">Echoes of Tomorrow</div>
-              <div className="w-8" />
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white">ECHOES OF TOMORROW</div>
+                <div className="text-sm text-gray-400 mt-1">Now Playing • S1:E1</div>
+              </div>
+              <div className="w-32" />
             </div>
           </div>
 
@@ -213,116 +250,152 @@ const NetflixPlayer: React.FC = () => {
             <div className="absolute inset-0 flex items-center justify-center">
               <button
                 onClick={handlePlayPause}
-                className="w-24 h-24 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition-all transform hover:scale-110 shadow-2xl"
+                className="group relative w-28 h-28 rounded-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 flex items-center justify-center transition-all transform hover:scale-110 shadow-2xl shadow-red-600/30"
                 aria-label={isPlaying ? 'Pause' : 'Play'}
               >
-                <Play className="w-12 h-12 text-white ml-2" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600/0 to-red-500/0 group-hover:from-red-700/20 group-hover:to-red-600/20 blur-md" />
+                <Play className="w-14 h-14 text-white ml-2" />
               </button>
             </div>
           )}
 
           {/* Bottom Controls */}
           <div
-            className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/90 to-transparent transition-opacity duration-300 ${
-              showControls ? 'opacity-100' : 'opacity-0'
+            className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent transition-all duration-500 ${
+              showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
             {/* Progress Bar */}
-            <div className="px-6 pb-2">
-              <input
-                type="range"
-                min="0"
-                max={duration}
-                value={currentTime}
-                onChange={handleProgressChange}
-                className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                style={{
-                  background: `linear-gradient(to right, #E50914 0%, #E50914 ${progressPercentage}%, #4B5563 ${progressPercentage}%, #4B5563 100%)`,
-                }}
-                aria-label="Video progress"
-              />
+            <div className="px-8 pb-3">
+              <div className="flex items-center justify-between text-sm text-gray-400 mb-1 px-1">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+              <div className="relative">
+                <div className="absolute h-1.5 w-full bg-gray-800/60 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max={duration}
+                  value={currentTime}
+                  onChange={handleProgressChange}
+                  className="absolute w-full h-1.5 opacity-0 cursor-pointer z-10"
+                  aria-label="Video progress"
+                />
+                <div 
+                  className="absolute w-4 h-4 bg-white rounded-full shadow-lg -translate-y-1.5 cursor-pointer hover:scale-125 transition-transform"
+                  style={{ left: `calc(${progressPercentage}% - 8px)` }}
+                />
+              </div>
             </div>
 
             {/* Control Buttons */}
-            <div className="px-6 pb-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
+            <div className="px-8 pb-8 flex items-center justify-between">
+              <div className="flex items-center gap-6">
                 <button
                   onClick={() => handleSkip(-10)}
-                  className="text-white hover:text-red-600 transition-colors"
+                  className="text-white hover:text-red-400 transition-colors group"
                   aria-label="Skip back 10 seconds"
                 >
-                  <SkipBack className="w-7 h-7" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                      <SkipBack className="w-6 h-6" />
+                    </div>
+                  </div>
                 </button>
+                
                 <button
                   onClick={handlePlayPause}
-                  className="text-white hover:text-red-600 transition-colors"
+                  className="text-white hover:text-red-400 transition-colors group"
                   aria-label={isPlaying ? 'Pause' : 'Play'}
                 >
-                  {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-red-600 to-red-500 flex items-center justify-center group-hover:from-red-700 group-hover:to-red-600 transition-all shadow-lg">
+                    {isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7 ml-1" />}
+                  </div>
                 </button>
+                
                 <button
                   onClick={() => handleSkip(10)}
-                  className="text-white hover:text-red-600 transition-colors"
+                  className="text-white hover:text-red-400 transition-colors group"
                   aria-label="Skip forward 10 seconds"
                 >
-                  <SkipForward className="w-7 h-7" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                      <SkipForward className="w-6 h-6" />
+                    </div>
+                  </div>
                 </button>
 
-                <div className="flex items-center gap-2 ml-4">
+                <div className="flex items-center gap-3 ml-2">
                   <button
                     onClick={handleMuteToggle}
-                    className="text-white hover:text-red-600 transition-colors"
+                    className="text-white hover:text-red-400 transition-colors group"
                     aria-label={isMuted ? 'Unmute' : 'Mute'}
                   >
-                    {isMuted || volume === 0 ? (
-                      <VolumeX className="w-6 h-6" />
-                    ) : (
-                      <Volume2 className="w-6 h-6" />
-                    )}
+                    <div className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                      {isMuted || volume === 0 ? (
+                        <VolumeX className="w-5 h-5" />
+                      ) : (
+                        <Volume2 className="w-5 h-5" />
+                      )}
+                    </div>
                   </button>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={isMuted ? 0 : volume}
-                    onChange={handleVolumeChange}
-                    className="w-20 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #E50914 0%, #E50914 ${volume}%, #4B5563 ${volume}%, #4B5563 100%)`,
-                    }}
-                    aria-label="Volume control"
-                  />
-                </div>
-
-                <div className="text-white text-sm ml-4">
-                  {formatTime(currentTime)} / {formatTime(duration)}
+                  <div className="relative w-32">
+                    <div className="absolute h-1.5 w-full bg-gray-700 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                        style={{ width: `${isMuted ? 0 : volume}%` }}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={isMuted ? 0 : volume}
+                      onChange={handleVolumeChange}
+                      className="absolute w-full h-1.5 opacity-0 cursor-pointer z-10"
+                      aria-label="Volume control"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setIsChatOpen(!isChatOpen)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 group ${
                     isChatOpen
-                      ? 'bg-red-600 text-white'
-                      : 'bg-white/10 text-white hover:bg-white/20'
+                      ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-600/20'
+                      : 'bg-white/10 backdrop-blur-sm text-white hover:bg-white/20'
                   }`}
                   aria-label={isChatOpen ? 'Close chat' : 'Open chat'}
                 >
-                  <MessageSquare className="w-5 h-5" />
-                  <span className="font-medium">Netflix Bot</span>
+                  <Bot className="w-5 h-5" />
+                  <span className="font-semibold">AI Assistant</span>
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 </button>
+                
                 <button
-                  className="text-white hover:text-red-600 transition-colors"
+                  className="text-white hover:text-red-400 transition-colors group"
                   aria-label="Settings"
                 >
-                  <Settings className="w-6 h-6" />
+                  <div className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <Settings className="w-6 h-6" />
+                  </div>
                 </button>
+                
                 <button
-                  className="text-white hover:text-red-600 transition-colors"
+                  className="text-white hover:text-red-400 transition-colors group"
                   aria-label="Fullscreen"
                 >
-                  <Maximize className="w-6 h-6" />
+                  <div className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <Maximize className="w-6 h-6" />
+                  </div>
                 </button>
               </div>
             </div>
@@ -332,48 +405,88 @@ const NetflixPlayer: React.FC = () => {
 
       {/* Chat Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-screen w-96 bg-black border-l border-red-900/30 flex flex-col transition-transform duration-300 ${
-          isChatOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-0 right-0 h-screen w-96 bg-gradient-to-b from-gray-950 to-black border-l border-gray-800/50 flex flex-col transition-all duration-500 ease-in-out backdrop-blur-xl ${
+          isChatOpen ? 'translate-x-0 shadow-2xl shadow-red-900/10' : 'translate-x-full'
         }`}
       >
         {/* Chat Header */}
-        <div className="bg-gradient-to-r from-red-600 to-red-700 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-white" />
+        <div className="bg-gradient-to-r from-gray-900 via-black to-gray-900 p-6 border-b border-gray-800/50">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600 to-red-500 flex items-center justify-center shadow-lg">
+                  <Bot className="w-7 h-7 text-white" />
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-gray-950" />
+              </div>
+              <div>
+                <div className="text-white font-bold text-xl">Netflix AI</div>
+                <div className="text-gray-400 text-sm flex items-center gap-2 mt-1">
+                  <Sparkles className="w-4 h-4" />
+                  <span>Real-time movie assistant</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="text-white font-bold">Netflix Bot</div>
-              <div className="text-red-100 text-xs">AI Assistant</div>
-            </div>
+            <button
+              onClick={() => setIsChatOpen(false)}
+              className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800/50"
+              aria-label="Close chat"
+            >
+              <X className="w-6 h-6" />
+            </button>
           </div>
-          <button
-            onClick={() => setIsChatOpen(false)}
-            className="text-white hover:text-red-200 transition-colors"
-            aria-label="Close chat"
-          >
-            <X className="w-6 h-6" />
-          </button>
+          <div className="mt-6">
+            <div className="text-sm text-gray-400 mb-3">Ask about Echoes of Tomorrow:</div>
+            {/* <div className="flex flex-wrap gap-2">
+              {suggestions.map((suggestion) => (
+                <button
+                  key={suggestion.id}
+                  onClick={() => handleSuggestionClick(suggestion.text)}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-900/60 hover:bg-gray-800/80 text-gray-300 hover:text-white transition-all duration-300 group border border-gray-800/50 hover:border-gray-700/50"
+                >
+                  {suggestion.icon}
+                  <span className="text-sm font-medium">{suggestion.text}</span>
+                  <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+              ))}
+            </div> */}
+          </div>
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[80%] rounded-lg p-3 ${
-                  msg.role === 'user' ? 'bg-red-600 text-white' : 'bg-gray-800 text-gray-100'
+                className={`max-w-[85%] rounded-2xl p-4 transition-all duration-300 ${
+                  msg.role === 'user' 
+                    ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg' 
+                    : 'bg-gray-900/60 backdrop-blur-sm text-gray-100 border border-gray-800/50'
                 }`}
               >
-                {msg.content}
+                <div className="flex items-start gap-3">
+                  {msg.role === 'assistant' && (
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600/20 to-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Bot className="w-4 h-4 text-red-400" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    {msg.content}
+                  </div>
+                </div>
               </div>
             </div>
           ))}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-gray-800 text-gray-100 rounded-lg p-3 flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Thinking...</span>
+              <div className="bg-gray-900/60 backdrop-blur-sm text-gray-100 rounded-2xl p-4 flex items-center gap-3 border border-gray-800/50">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600/20 to-red-500/20 flex items-center justify-center">
+                  <Loader2 className="w-4 h-4 text-red-400 animate-spin" />
+                </div>
+                <div>
+                  <div className="font-medium">Thinking...</div>
+                  <div className="text-sm text-gray-400">Analyzing your question</div>
+                </div>
               </div>
             </div>
           )}
@@ -381,59 +494,38 @@ const NetflixPlayer: React.FC = () => {
         </div>
 
         {/* Chat Input */}
-        <div className="p-4 border-t border-red-900/30">
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask about the movie..."
-              className="flex-1 bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-600"
-              disabled={isLoading}
-              aria-label="Chat input"
-            />
+        <div className="p-6 border-t border-gray-800/50 bg-gradient-to-t from-gray-950/50 to-transparent">
+          <div className="flex gap-3">
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask about the movie, cast, or plot..."
+                className="w-full bg-gray-900/60 backdrop-blur-sm text-white rounded-xl px-5 py-3.5 focus:outline-none focus:ring-2 focus:ring-red-500/50 border border-gray-800/50 focus:border-red-500/30 transition-all"
+                disabled={isLoading}
+                aria-label="Chat input"
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
+                ⏎ Enter
+              </div>
+            </div>
             <button
               onClick={handleSendMessage}
               disabled={isLoading || !inputMessage.trim()}
-              className="bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg px-4 py-3 transition-colors"
+              className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed text-white rounded-xl px-5 py-3.5 transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-red-600/20 disabled:shadow-none"
               aria-label="Send message"
             >
               <Send className="w-5 h-5" />
             </button>
           </div>
-          <div className="mt-2 text-xs text-gray-500 text-center">Powered by Claude AI</div>
+          <div className="mt-4 text-xs text-gray-500 text-center flex items-center justify-center gap-2">
+            <Sparkles className="w-3 h-3" />
+            <span>Powered by Netflix AI • Real-time movie insights</span>
+          </div>
         </div>
       </div>
-
-      <style>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: #E50914;
-          cursor: pointer;
-          opacity: 0;
-          transition: opacity 0.2s;
-        }
-        .slider:hover::-webkit-slider-thumb {
-          opacity: 1;
-        }
-        .slider::-moz-range-thumb {
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: #E50914;
-          cursor: pointer;
-          border: none;
-          opacity: 0;
-          transition: opacity 0.2s;
-        }
-        .slider:hover::-moz-range-thumb {
-          opacity: 1;
-        }
-      `}</style>
     </div>
   );
 };

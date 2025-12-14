@@ -25,7 +25,7 @@ import FYPPage from "./pages/FYP/page2";
 import HomePage from "./pages/Home/page";
 import WatchPage from "./pages/Film/page2";
 import ForumPage from "./pages/Forum/page";
-import FloatingChatbot from "./components/utils/FloatingChatbot";
+// import FloatingChatbot from "./components/utils/FloatingChatbot";
 import CreateForumPage from "./pages/Forum/create";
 import ForumDetailPage from "./pages/Forum/[id]/page";
 import NetflixFeaturesHome from "./pages/Landing/features";
@@ -110,10 +110,10 @@ function App() {
 
       <Toaster position="top-center" />
 
-      <FloatingChatbot 
+      {/* <FloatingChatbot 
         position="bottom-right"
         initialOpen={false}
-      />
+      /> */}
 
     </BrowserRouter>
 
