@@ -136,7 +136,7 @@ const FloatingChatbot: React.FC<FloatingChatbotProps> = ({
           className={`bg-black border border-red-900/50 rounded-xl shadow-2xl overflow-hidden transition-all duration-300 ${
             isMinimized 
               ? 'w-80 h-16' 
-              : 'w-96 h-[700px]'
+              : 'w-96 h-[600px]'
           }`}
         >
           {/* Chat Header */}

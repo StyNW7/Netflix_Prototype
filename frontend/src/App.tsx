@@ -26,6 +26,8 @@ import HomePage from "./pages/Home/page";
 import WatchPage from "./pages/Film/page2";
 import ForumPage from "./pages/Forum/page";
 import FloatingChatbot from "./components/utils/FloatingChatbot";
+import CreateForumPage from "./pages/Forum/create";
+import ForumDetailPage from "./pages/Forum/[id]/page";
 
 function App() {
 
@@ -54,6 +56,9 @@ function App() {
             <Route path="/fyp" element={<FYPPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/forum" element={<ForumPage />} />
+
+            <Route path="/forum/create" element={<CreateForumPage />} />
+            <Route path="/forum/:id" element={<ForumDetailPage />} />
 
             <Route path="/" element={<Layout />}>
               
