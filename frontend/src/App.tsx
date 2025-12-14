@@ -12,7 +12,7 @@ import Layout from "@/layouts/root-layout";
 
 // Utility Pages / Components
 
-import ScrollToTop from "./utility/ScrollToTop";
+// import ScrollToTop from "./utility/ScrollToTop";
 // import CustomCursor from "./utility/CustomCursor";
 import ScrollToTopFunction from "./utility/ScrollToTopFunction";
 import NotFoundPage from "./pages/Utility/NotFound404";
@@ -24,6 +24,8 @@ import LandingPage from "@/pages/Landing/page";
 import FYPPage from "./pages/FYP/page";
 import HomePage from "./pages/Home/page";
 import WatchPage from "./pages/Film/page2";
+import ForumPage from "./pages/Forum/page";
+import FloatingChatbot from "./components/utils/FloatingChatbot";
 
 function App() {
 
@@ -35,7 +37,7 @@ function App() {
 
     <BrowserRouter>
       <ScrollToTopFunction />
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       {/* <CustomCursor /> */}
 
       {loading && (
@@ -51,6 +53,7 @@ function App() {
             <Route path="/watch" element={<WatchPage />} />
             <Route path="/fyp" element={<FYPPage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/forum" element={<ForumPage />} />
 
             <Route path="/" element={<Layout />}>
               
@@ -67,6 +70,11 @@ function App() {
       </AnimatePresence>
 
       <Toaster position="top-center" />
+
+      <FloatingChatbot 
+        position="bottom-right"
+        initialOpen={false}
+      />
 
     </BrowserRouter>
 
