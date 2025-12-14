@@ -21,7 +21,7 @@ const NetflixFriends = () => {
     {
       id: 2,
       name: 'Maria Rodriguez',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=687&auto=format&fit=crop',
       action: 'rated',
       content: 'Dune: Part Two',
       details: '9/10',
@@ -57,7 +57,7 @@ const NetflixFriends = () => {
     {
       id: 5,
       name: 'Marcus Johnson',
-      avatar: 'https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=400&h=400&fit=crop&crop=face',
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=880&auto=format&fit=crop',
       action: 'finished watching',
       content: 'Breaking Bad',
       details: 'All 5 seasons',
@@ -72,7 +72,7 @@ const NetflixFriends = () => {
     {
       id: 1,
       title: 'Oppenheimer',
-      image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop',
+      image: 'https://images.unsplash.com/photo-1691316749874-e89297ee4cf3?q=80&w=714&auto=format&fit=crop',
       friends: 5,
       rating: 9.2,
       genre: 'Biography, Drama',
@@ -99,7 +99,7 @@ const NetflixFriends = () => {
     {
       id: 4,
       title: 'The Bear',
-      image: 'https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=400&h=600&fit=crop',
+      image: 'https://images.unsplash.com/photo-1589656966895-2f33e7653819?q=80&w=1170&auto=format&fit=crop',
       friends: 4,
       rating: 9.1,
       genre: 'Drama, Comedy',
@@ -500,7 +500,7 @@ const NetflixFriends = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="relative rounded-2xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1595769812729-76a9261a3308?w=800&h=400&fit=crop" 
+                src="https://images.unsplash.com/photo-1637947582297-24ccbef1bd19?q=80&w=1881&auto=format&fit=crop" 
                 alt="Trending Show"
                 className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -516,7 +516,7 @@ const NetflixFriends = () => {
             </div>
             <div className="relative rounded-2xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=800&h=400&fit=crop" 
+                src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1170&auto=format&fit=crop" 
                 alt="Popular Movie"
                 className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
               />
