@@ -1,6 +1,6 @@
 <div align="center">
     <div>
-        <img height="150px" src="./images/Logo.png" alt="Netflix Logo"/>
+        <img height="150px" src="./images/logo.png" alt="Netflix Logo"/>
     </div>
     <div>
             <h3><b>Netflix</b></h3>
@@ -145,24 +145,24 @@ A personal insight & analytics dashboard for users.
 
 <table style="width:100%; text-align:center">
 <tr>
-<td><img src="./Images/Preview/fyp.png"/></td>
-<td><img src="./Images/Preview/bot.png"/></td>
+<td><img src="./Images/preview/fyp.png"/></td>
+<td><img src="./Images/preview/bot.png"/></td>
 </tr>
 <tr>
 <td>Netflix FYP</td>
 <td>Netflix Bot</td>
 </tr>
 <tr>
-<td><img src="./Images/Preview/forum.png"/></td>
-<td><img src="./Images/Preview/friends.png"/></td>
+<td><img src="./Images/preview/forum.png"/></td>
+<td><img src="./Images/preview/friends.png"/></td>
 </tr>
 <tr>
 <td>Netflix Forum</td>
 <td>Netflix Friends</td>
 </tr>
 <tr>
-<td><img src="./Images/Preview/saving.png"/></td>
-<td><img src="./Images/Preview/dashboard.png"/></td>
+<td><img src="./Images/preview/saving.png"/></td>
+<td><img src="./Images/preview/dashboard.png"/></td>
 </tr>
 <tr>
 <td>Netflix Saving Mode</td>
