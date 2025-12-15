@@ -318,7 +318,7 @@ const NetflixFeaturesHome = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-red-300 bg-clip-text text-transparent">
-              Why Choose Netflix TA-D(Ú)M?
+              Why Choose Netflix TA-DÚM?
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Experience streaming like never before with our cutting-edge features
@@ -414,7 +414,7 @@ const NetflixFeaturesHome = () => {
             <div className="flex items-center gap-3">
               <Film className="w-8 h-8 text-red-600" />
               <span className="text-2xl font-bold text-white">NETFLIX</span>
-              <span className="text-gray-500 text-sm">TA-D(Ú)M</span>
+              <span className="text-gray-500 text-sm">TA-DÚM</span>
             </div>
             
             <div className="flex items-center gap-6">
@@ -433,7 +433,7 @@ const NetflixFeaturesHome = () => {
           </div>
           
           <div className="mt-8 text-center text-gray-500 text-sm">
-            <p className="mb-2">© 2025 Netflix TA-D(Ú)M. All rights reserved.</p>
+            <p className="mb-2">© 2025 Netflix TA-DÚM. All rights reserved.</p>
             <p>Designed with <Heart className="w-3 h-3 inline text-red-500" /> for the future of streaming by SSO 2.0</p>
           </div>
         </div>
