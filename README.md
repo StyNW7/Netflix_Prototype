@@ -145,24 +145,24 @@ A personal insight & analytics dashboard for users.
 
 <table style="width:100%; text-align:center">
 <tr>
-<td><img src="./Images/preview/fyp.png"/></td>
-<td><img src="./Images/preview/bot.png"/></td>
+<td><img src="./images/preview/fyp.png"/></td>
+<td><img src="./images/preview/bot.png"/></td>
 </tr>
 <tr>
 <td>Netflix FYP</td>
 <td>Netflix Bot</td>
 </tr>
 <tr>
-<td><img src="./Images/preview/forum.png"/></td>
-<td><img src="./Images/preview/friends.png"/></td>
+<td><img src="./images/preview/forum.png"/></td>
+<td><img src="./images/preview/friends.png"/></td>
 </tr>
 <tr>
 <td>Netflix Forum</td>
 <td>Netflix Friends</td>
 </tr>
 <tr>
-<td><img src="./Images/preview/saving.png"/></td>
-<td><img src="./Images/preview/dashboard.png"/></td>
+<td><img src="./images/preview/saving.png"/></td>
+<td><img src="./images/preview/dashboard.png"/></td>
 </tr>
 <tr>
 <td>Netflix Saving Mode</td>
