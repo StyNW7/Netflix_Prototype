@@ -306,8 +306,8 @@ const NetflixFeaturesHome = () => {
               <div className="w-12 h-12 rounded-lg bg-yellow-600/20 flex items-center justify-center mb-4 group-hover:bg-yellow-600/30 transition-colors">
                 <Shield className="w-6 h-6 text-yellow-500" />
               </div>
-              <h4 className="font-semibold mb-2">Parental Control+</h4>
-              <p className="text-sm text-gray-400">Enhanced family safety</p>
+              <h4 className="font-semibold mb-2">Saving Mode</h4>
+              <p className="text-sm text-gray-400">Smart Controls to save your energy!</p>
             </div>
           </div>
         </div>
@@ -434,7 +434,7 @@ const NetflixFeaturesHome = () => {
           
           <div className="mt-8 text-center text-gray-500 text-sm">
             <p className="mb-2">© 2025 Netflix TA-D(Ú)M. All rights reserved.</p>
-            <p>Designed with <Heart className="w-3 h-3 inline text-red-500" /> for the future of streaming</p>
+            <p>Designed with <Heart className="w-3 h-3 inline text-red-500" /> for the future of streaming by SSO 2.0</p>
           </div>
         </div>
       </footer>

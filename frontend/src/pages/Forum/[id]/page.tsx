@@ -28,6 +28,7 @@ import {
   TrendingUp,
   Hash
 } from "lucide-react"
+import { useNavigate } from "react-router"
 
 interface Reply {
   id: number
@@ -46,6 +47,9 @@ interface Reply {
 }
 
 export default function ForumDetailPage() {
+
+  const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(false)
   const [likesCount, setLikesCount] = useState(342)
   const [isBookmarked, setIsBookmarked] = useState(false)
@@ -178,6 +182,7 @@ export default function ForumDetailPage() {
             <div className="flex items-center gap-4">
               <button
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
+                onClick={() => navigate(-1)}
               >
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                 <span>Back to Forum</span>
@@ -720,7 +725,7 @@ const mockReplies: Reply[] = [
     id: 1,
     author: {
       name: "JessePinkmanLover",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+      avatar: "https://plus.unsplash.com/premium_photo-1669704098876-2a38eb10e56a?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       isVerified: true,
       reputation: 1820,
       level: 28
@@ -734,7 +739,7 @@ const mockReplies: Reply[] = [
         id: 11,
         author: {
           name: "CinemaBuff",
-          avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+          avatar: "https://plus.unsplash.com/premium_photo-1669704098876-2a38eb10e56a?q=80&w=688&auto=format&fit=crop",
           isVerified: false,
           reputation: 420,
           level: 12
@@ -764,7 +769,7 @@ const mockReplies: Reply[] = [
     id: 3,
     author: {
       name: "TVCritic2024",
-      avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop&crop=face",
+      avatar: "https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?q=80&w=687&auto=format&fit=crop",
       isVerified: true,
       reputation: 3450,
       level: 48
@@ -778,7 +783,7 @@ const mockReplies: Reply[] = [
         id: 31,
         author: {
           name: "SoulWriter",
-          avatar: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=100&h=100&fit=crop&crop=face",
+          avatar: "https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?q=80&w=687&auto=format&fit=crop",
           isVerified: false,
           reputation: 890,
           level: 22

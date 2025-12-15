@@ -23,6 +23,7 @@ import {
   Pause,
   Info
 } from "lucide-react"
+import { useNavigate } from "react-router"
 
 interface Video {
   id: number
@@ -44,6 +45,9 @@ interface Video {
 }
 
 export default function FYPPage() {
+
+  const navigate = useNavigate()
+
   const [videos, setVideos] = useState<Video[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -91,7 +95,7 @@ export default function FYPPage() {
       title: "Stranger Things - Season 4 Finale",
       description: "The epic conclusion to season 4 with mind-bending revelations and spectacular visual effects.",
       category: "trending",
-      thumbnail: "https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?w=800&h=1200&fit=crop",
+      thumbnail: "https://images.unsplash.com/photo-1602562086757-78809c34ceb4?q=80&w=1169&auto=format&fit=crop",
       likes: 23200,
       comments: 4680,
       shares: 2520,
@@ -155,7 +159,7 @@ export default function FYPPage() {
       title: "The Witcher - Epic Battle Scene",
       description: "Geralt of Rivia showcasing his unmatched swordsmanship in this breathtaking battle sequence.",
       category: "movies",
-      thumbnail: "https://images.unsplash.com/photo-1595769812729-76a9261a3308?w=800&h=1200&fit=crop",
+      thumbnail: "https://images.unsplash.com/photo-1699147561362-3945a202b29c?q=80&w=1332&auto=format&fit=crop",
       likes: 18800,
       comments: 2720,
       shares: 1560,
@@ -330,7 +334,7 @@ export default function FYPPage() {
     <div className="flex w-full h-screen bg-black text-white overflow-hidden">
       {/* Sidebar */}
       <div className="hidden md:flex w-20 lg:w-64 flex-col items-center py-6 bg-gradient-to-b from-black via-black to-gray-900 border-r border-gray-800">
-        <div className="mb-8 px-4">
+        <div className="mb-8 px-4 cursor-pointer" onClick={() => navigate("/")}>
           <div className="text-red-600 font-bold text-2xl lg:text-3xl">N</div>
         </div>
         

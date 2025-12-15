@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Clock, Tv, Heart, Users, Leaf, Zap, Award, ChevronUp, ChevronDown, Target, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const NetflixDashboard = () => {
+
+  const navigate = useNavigate();
+  
   const [timeRange, setTimeRange] = useState('month');
 
   // Watch time data
@@ -155,7 +159,7 @@ const NetflixDashboard = () => {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-lg border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate("/")}>
             <div className="text-red-600 font-bold text-3xl">NETFLIX</div>
             <div className="h-6 w-px bg-gray-700" />
             <div className="flex items-center gap-2 text-xl font-semibold">
@@ -269,7 +273,7 @@ const NetflixDashboard = () => {
           </div>
 
           {/* Genre Distribution */}
-          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 border border-gray-800">
+          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 border border-gray-800 text-white">
             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <Target className="w-6 h-6 text-red-600" />
               Top Genres
@@ -293,7 +297,8 @@ const NetflixDashboard = () => {
                   contentStyle={{ 
                     backgroundColor: '#1F2937', 
                     border: '1px solid #E50914',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    color: "white"
                   }}
                 />
               </PieChart>

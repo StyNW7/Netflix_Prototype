@@ -31,6 +31,7 @@ import {
   AlertCircle,
   Heart
 } from "lucide-react"
+import { useNavigate } from "react-router"
 
 interface Post {
   id: number
@@ -60,6 +61,9 @@ interface Post {
 }
 
 export default function ForumPage() {
+
+  const navigate = useNavigate()
+
   const [selectedCategory, setSelectedCategory] = useState("trending")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedRegion, setSelectedRegion] = useState("global")
@@ -188,7 +192,7 @@ export default function ForumPage() {
       content: "With production wrapped, when do you think we'll finally get Season 2? My bet is on Q4 2024. What are your predictions?",
       author: {
         name: "GameMaster456",
-        avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?w=100&h=100&fit=crop&crop=face",
+        avatar: "https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?q=80&w=687&auto=format&fit=crop",
         isVerified: false,
         reputation: 680,
         level: 15
@@ -275,7 +279,7 @@ export default function ForumPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-lg border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate("/")}>
             <div className="text-red-600 font-bold text-3xl">NETFLIX</div>
             <div className="h-6 w-px bg-gray-700" />
             <div className="flex items-center gap-2 text-xl font-semibold">
@@ -448,7 +452,9 @@ export default function ForumPage() {
               {filteredPosts.map((post) => (
                 <div
                   key={post.id}
-                  className="group bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 border border-gray-800 hover:border-red-600/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/10 hover:-translate-y-1"
+                  className="group bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 border border-gray-800 hover:border-red-600/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/10 hover:-translate-y-1
+                  cursor-pointer"
+                  onClick={() => navigate(`/forum/${post.id}`)}
                 >
                   {/* Post Header */}
                   <div className="flex items-start justify-between mb-4">
@@ -462,7 +468,7 @@ export default function ForumPage() {
                           />
                         </div>
                         {post.author.isVerified && (
-                          <CheckCircle className="absolute -bottom-1 -right-1 w-5 h-5 text-blue-500 fill-blue-500 bg-black rounded-full" />
+                          <CheckCircle className="absolute -bottom-1 -right-1 w-5 h-5  fill-blue-500 bg-black rounded-full" />
                         )}
                       </div>
                       <div>
@@ -572,6 +578,7 @@ export default function ForumPage() {
                     </div>
                   </div>
                 </div>
+
               ))}
             </div>
           </div>

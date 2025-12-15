@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Play, Star, Eye, Lock, Users, TrendingUp, CheckCircle, Settings, Heart, Clock, Award } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const NetflixFriends = () => {
+
+  const navigate = useNavigate();
+
   const [privacyMode, setPrivacyMode] = useState('friends'); // public, friends, private
   const [following, setFollowing] = useState<Record<number, boolean>>({});
 
@@ -173,7 +177,7 @@ const NetflixFriends = () => {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-lg border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate("/")}>
             <div className="text-red-600 font-bold text-3xl">NETFLIX</div>
             <div className="h-6 w-px bg-gray-700" />
             <div className="flex items-center gap-2 text-xl font-semibold">

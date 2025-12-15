@@ -16,6 +16,7 @@ import {
   Clock,
   Star,
 } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -23,6 +24,9 @@ type Message = {
 };
 
 const NetflixPlayer: React.FC = () => {
+
+  const navigate = useNavigate()
+
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(80);
@@ -230,7 +234,7 @@ const NetflixPlayer: React.FC = () => {
           >
             <div className="p-8 flex items-center justify-between">
               <button className="text-white hover:text-red-400 transition-colors duration-300 group">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
                   <div className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center group-hover:bg-black/60 transition-colors">
                     <X className="w-5 h-5" />
                   </div>
