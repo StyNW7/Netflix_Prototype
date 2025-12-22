@@ -376,15 +376,15 @@ const NetflixFeaturesHome = () => {
           </h2>
           
           <p className="text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Be among the first to experience these revolutionary features. Join our beta program and shape the future of Netflix.
+            Be among the first to experience these revolutionary features. Support TADUM and shape the future of Netflix.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group px-10 py-5 bg-gradient-to-r from-red-600 to-red-700 rounded-full font-bold text-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 shadow-2xl shadow-red-600/50 flex items-center gap-3">
+            {/* <button className="group px-10 py-5 bg-gradient-to-r from-red-600 to-red-700 rounded-full font-bold text-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 shadow-2xl shadow-red-600/50 flex items-center gap-3">
               Join Beta Program
               <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-            </button>
-            <button className="px-10 py-5 bg-white/10 backdrop-blur-sm rounded-full font-bold text-lg hover:bg-white/20 transition-all border border-white/20 flex items-center gap-3">
+            </button> */}
+            <button className="group px-10 py-5 bg-gradient-to-r from-red-600 to-red-700 rounded-full font-bold text-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 shadow-2xl shadow-red-600/50 flex items-center gap-3">
               <HelpCircle className="w-6 h-6" />
               Learn More
             </button>
@@ -420,7 +420,7 @@ const NetflixFeaturesHome = () => {
             <div className="flex items-center gap-6">
               <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Home</a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Features</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Beta</a>
+              {/* <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Beta</a> */}
               <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Support</a>
             </div>
             
