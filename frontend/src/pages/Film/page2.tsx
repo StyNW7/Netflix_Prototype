@@ -13,8 +13,6 @@ import {
   Loader2,
   Bot,
   Sparkles,
-  Clock,
-  Star,
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
@@ -24,34 +22,32 @@ type Message = {
 };
 
 const NetflixPlayer: React.FC = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(80);
-  const [currentTime, setCurrentTime] = useState<number>(45);
-  const [duration] = useState<number>(180); // 3 minutes demo
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
   const [showControls, setShowControls] = useState<boolean>(true);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hello! I'm your Netflix AI Assistant. I can help you with anything about 'Echoes of Tomorrow' - ask about the plot, cast, or get personalized recommendations!",
+      content: "Hello! I'm your Netflix AI Assistant. I can help you with anything about 'Big Buck Bunny' - ask about the plot, cast, or get personalized recommendations!",
     },
   ]);
   const [inputMessage, setInputMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
   
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // const suggestions: Suggestion[] = [
-  //   { id: 1, text: "What's the plot?", icon: <Film className="w-4 h-4" /> },
-  //   { id: 2, text: "Who are the main actors?", icon: <Users className="w-4 h-4" /> },
-  //   { id: 3, text: "Explain the ending", icon: <HelpCircle className="w-4 h-4" /> },
-  //   { id: 4, text: "Similar movies?", icon: <Sparkles className="w-4 h-4" /> },
-  // ];
+  // Video URL - using a sample video that works well
+  const videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  const videoPoster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=1200&fit=crop";
 
   // Format time helper function
   const formatTime = useCallback((seconds: number): string => {
@@ -60,20 +56,83 @@ const NetflixPlayer: React.FC = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   }, []);
 
-  // Simulate video playback
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (isPlaying && currentTime < duration) {
-      interval = setInterval(() => {
-        setCurrentTime((prev) => Math.min(prev + 1, duration));
-      }, 1000);
+  // Handle video metadata loaded
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+      setVideoLoaded(true);
     }
+  };
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isPlaying, currentTime, duration]);
+  // Handle video time update
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  };
+
+  // Handle video ended
+  const handleVideoEnd = () => {
+    setIsPlaying(false);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  // Handle play/pause
+  const handlePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Handle mute toggle
+  const handleMuteToggle = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+      if (!isMuted && volume === 0) {
+        setVolume(50);
+        if (videoRef.current) {
+          videoRef.current.volume = 0.5;
+        }
+      }
+    }
+  };
+
+  // Handle volume change
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseInt(e.target.value, 10);
+    setVolume(newVolume);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume / 100;
+      videoRef.current.muted = newVolume === 0;
+      setIsMuted(newVolume === 0);
+    }
+  };
+
+  // Handle progress change (seeking)
+  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = parseFloat(e.target.value);
+    setCurrentTime(newTime);
+    if (videoRef.current) {
+      videoRef.current.currentTime = newTime;
+    }
+  };
+
+  // Handle skip
+  const handleSkip = (seconds: number) => {
+    if (videoRef.current) {
+      const newTime = Math.max(0, Math.min(videoRef.current.currentTime + seconds, duration));
+      videoRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
 
   // Auto-hide controls
   useEffect(() => {
@@ -99,37 +158,39 @@ const NetflixPlayer: React.FC = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handlePlayPause = () => setIsPlaying(!isPlaying);
-  const handleMuteToggle = () => setIsMuted(!isMuted);
+  // Initialize video volume
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = volume / 100;
+      videoRef.current.muted = isMuted;
+    }
+  }, [volume, isMuted]);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseInt(e.target.value, 10);
-    setVolume(newVolume);
-    setIsMuted(newVolume === 0);
-  };
-
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTime = parseInt(e.target.value, 10);
-    setCurrentTime(newTime);
-  };
-
-  const handleSkip = (seconds: number) => {
-    setCurrentTime((prev) => Math.max(0, Math.min(prev + seconds, duration)));
-  };
+  // Auto-play on component mount
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(error => {
+        console.log("Autoplay prevented:", error);
+        setIsPlaying(false);
+      });
+    }
+  }, []);
 
   const getAIResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase();
     
     if (message.includes('plot') || message.includes('story') || message.includes('about')) {
-      return "Echoes of Tomorrow is a mind-bending sci-fi thriller about Dr. Sarah Chen, a quantum physicist who discovers a way to communicate with parallel dimensions. As she navigates through different timelines, she must prevent a catastrophic event that threatens to collapse all realities. The film explores themes of destiny, choice, and the interconnectedness of all things.";
+      return "Big Buck Bunny is a mind-bending sci-fi thriller about Dr. Sarah Chen, a quantum physicist who discovers a way to communicate with parallel dimensions. As she navigates through different timelines, she must prevent a catastrophic event that threatens to collapse all realities. The film explores themes of destiny, choice, and the interconnectedness of all things.";
     } else if (message.includes('cast') || message.includes('actor') || message.includes('actress')) {
       return "The film stars Emma Stone as Dr. Sarah Chen, bringing emotional depth to the brilliant physicist. Oscar Isaac plays Marcus Vale, her mysterious colleague with hidden motives. Supporting cast includes Michael B. Jordan as Agent Harris and Florence Pugh as Dr. Elena Rodriguez. The ensemble delivers powerful performances under Denis Villeneuve's visionary direction.";
     } else if (message.includes('ending') || message.includes('end') || message.includes('conclusion')) {
       return "Without spoilers: The ending reveals that every choice creates a new timeline, and Sarah learns that true power lies in accepting all possibilities. The final scene suggests that the 'echoes' she's been hearing are actually versions of herself from other dimensions working together—a beautiful metaphor for self-acceptance and unity across all realities.";
     } else if (message.includes('similar') || message.includes('recommend') || message.includes('like this')) {
-      return "If you enjoy Echoes of Tomorrow, I recommend: 1) 'Arrival' for its intelligent sci-fi concepts, 2) 'Inception' for mind-bending reality shifts, 3) 'Everything Everywhere All at Once' for multidimensional storytelling, and 4) 'Interstellar' for its emotional sci-fi depth. All are available on Netflix!";
+      return "If you enjoy Big Buck Bunny, I recommend: 1) 'Arrival' for its intelligent sci-fi concepts, 2) 'Inception' for mind-bending reality shifts, 3) 'Everything Everywhere All at Once' for multidimensional storytelling, and 4) 'Interstellar' for its emotional sci-fi depth. All are available on Netflix!";
     } else if (message.includes('director') || message.includes('directed')) {
-      return "Echoes of Tomorrow is directed by Denis Villeneuve, known for his masterful work on Dune, Arrival, and Blade Runner 2049. His signature style of grand visuals, atmospheric storytelling, and intellectual depth is evident throughout this film. This marks his first collaboration with cinematographer Greig Fraser on a Netflix Original.";
+      return "Big Buck Bunny is directed by Denis Villeneuve, known for his masterful work on Dune, Arrival, and Blade Runner 2049. His signature style of grand visuals, atmospheric storytelling, and intellectual depth is evident throughout this film. This marks his first collaboration with cinematographer Greig Fraser on a Netflix Original.";
     } else if (message.includes('time') || message.includes('duration') || message.includes('long')) {
       return "The film runtime is 2 hours and 18 minutes. It premiered on Netflix on March 15, 2024, and has been streamed over 85 million times in its first month. The pacing is deliberate, allowing the complex narrative to unfold naturally while keeping viewers engaged with stunning visuals and thought-provoking concepts.";
     } else if (message.includes('rating') || message.includes('review') || message.includes('score')) {
@@ -137,22 +198,9 @@ const NetflixPlayer: React.FC = () => {
     } else if (message.includes('award') || message.includes('nomination') || message.includes('oscar')) {
       return "The film has received 6 Oscar nominations including Best Picture, Best Director (Denis Villeneuve), Best Actress (Emma Stone), Best Cinematography, Best Visual Effects, and Best Original Score. It won the Critics' Choice Award for Best Sci-Fi Film and has 8 nominations for the upcoming Stream Awards.";
     } else {
-      return "I'm your dedicated Netflix AI Assistant! I can help you understand Echoes of Tomorrow better—ask about the plot, characters, themes, or recommendations for similar movies. Feel free to ask anything specific about this film or if you'd like me to explain any particular scene you're watching right now!";
+      return "I'm your dedicated Netflix AI Assistant! I can help you understand Big Buck Bunny better—ask about the plot, characters, themes, or recommendations for similar movies. Feel free to ask anything specific about this film or if you'd like me to explain any particular scene you're watching right now!";
     }
   };
-
-  // const handleSuggestionClick = (suggestion: string) => {
-  //   const userMessage = suggestion;
-  //   setInputMessage('');
-  //   setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
-  //   setIsLoading(true);
-
-  //   setTimeout(() => {
-  //     const response = getAIResponse(userMessage);
-  //     setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
-  //     setIsLoading(false);
-  //   }, 800);
-  // };
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
@@ -184,7 +232,7 @@ const NetflixPlayer: React.FC = () => {
     }
   };
 
-  const progressPercentage = (currentTime / duration) * 100;
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden flex font-sans">
@@ -192,39 +240,36 @@ const NetflixPlayer: React.FC = () => {
       <div className={`relative flex-1 transition-all duration-500 ease-in-out ${isChatOpen ? 'mr-96' : ''}`}>
         {/* Video Container */}
         <div
-          className="relative w-full h-full bg-gradient-to-br from-gray-950 via-black to-red-950/20"
+          className="relative w-full h-full bg-gradient-to-br from-gray-950 via-black to-red-950/20 overflow-hidden"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Simulated Video Content with animated background */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center space-y-6">
-              <div className="relative">
-                <div className="text-7xl font-black tracking-tight bg-gradient-to-r from-red-500 via-red-500 to-red-600 bg-clip-text text-transparent mb-2">
-                  ECHOES
-                </div>
-                <div className="text-5xl font-light text-gray-300 tracking-widest">OF TOMORROW</div>
-                <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-red-500/10 to-red-500/5 blur-2xl rounded-full" />
-              </div>
-              <div className="flex items-center justify-center gap-6 text-gray-400">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-500 fill-current" />
-                  <span className="font-medium">8.3/10</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5" />
-                  <span>2h 18m</span>
-                </div>
-                <div className="px-3 py-1 bg-red-600/20 border border-red-600/30 rounded-full text-sm">
-                  SCI-FI THRILLER
-                </div>
+          {/* Actual Video Element */}
+          <video
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover"
+            src={videoUrl}
+            poster={videoPoster}
+            onLoadedMetadata={handleLoadedMetadata}
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={handleVideoEnd}
+            loop={false}
+            playsInline
+            preload="metadata"
+          />
+          
+          {/* Video Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
+
+          {/* Loading Overlay */}
+          {!videoLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/80">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-16 h-16 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin" />
+                <p className="text-gray-400">Loading video...</p>
               </div>
             </div>
-          </div>
-
-          {/* Floating elements for visual interest */}
-          <div className="absolute top-1/4 left-10 w-32 h-32 bg-red-500/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-10 w-40 h-40 bg-red-500/5 rounded-full blur-3xl" />
+          )}
 
           {/* Top Gradient Overlay */}
           <div
@@ -242,7 +287,7 @@ const NetflixPlayer: React.FC = () => {
                 </div>
               </button>
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">ECHOES OF TOMORROW</div>
+                <div className="text-2xl font-bold text-white">Big Buck Bunny</div>
                 <div className="text-sm text-gray-400 mt-1">Now Playing • S1:E1</div>
               </div>
               <div className="w-32" />
@@ -278,14 +323,14 @@ const NetflixPlayer: React.FC = () => {
               <div className="relative">
                 <div className="absolute h-1.5 w-full bg-gray-800/60 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full transition-all duration-300"
                     style={{ width: `${progressPercentage}%` }}
                   />
                 </div>
                 <input
                   type="range"
                   min="0"
-                  max={duration}
+                  max={duration || 180}
                   value={currentTime}
                   onChange={handleProgressChange}
                   className="absolute w-full h-1.5 opacity-0 cursor-pointer z-10"
@@ -352,7 +397,7 @@ const NetflixPlayer: React.FC = () => {
                   <div className="relative w-32">
                     <div className="absolute h-1.5 w-full bg-gray-700 rounded-full overflow-hidden">
                       <div 
-                        className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full transition-all duration-300"
                         style={{ width: `${isMuted ? 0 : volume}%` }}
                       />
                     </div>
@@ -396,6 +441,11 @@ const NetflixPlayer: React.FC = () => {
                 <button
                   className="text-white hover:text-red-400 transition-colors group"
                   aria-label="Fullscreen"
+                  onClick={() => {
+                    if (videoRef.current?.requestFullscreen) {
+                      videoRef.current.requestFullscreen();
+                    }
+                  }}
                 >
                   <div className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/10 transition-colors">
                     <Maximize className="w-6 h-6" />
@@ -440,20 +490,7 @@ const NetflixPlayer: React.FC = () => {
             </button>
           </div>
           <div className="mt-6">
-            <div className="text-sm text-gray-400 mb-3">Ask about Echoes of Tomorrow:</div>
-            {/* <div className="flex flex-wrap gap-2">
-              {suggestions.map((suggestion) => (
-                <button
-                  key={suggestion.id}
-                  onClick={() => handleSuggestionClick(suggestion.text)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-900/60 hover:bg-gray-800/80 text-gray-300 hover:text-white transition-all duration-300 group border border-gray-800/50 hover:border-gray-700/50"
-                >
-                  {suggestion.icon}
-                  <span className="text-sm font-medium">{suggestion.text}</span>
-                  <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </button>
-              ))}
-            </div> */}
+            <div className="text-sm text-gray-400 mb-3">Ask about Big Buck Bunny:</div>
           </div>
         </div>
 
