@@ -21,7 +21,9 @@ import {
   Settings,
   Download,
   Pause,
-  Info
+  Info,
+  Volume2,
+  VolumeX
 } from "lucide-react"
 import { useNavigate } from "react-router"
 
@@ -31,6 +33,7 @@ interface Video {
   description: string
   category: string
   thumbnail: string
+  videoUrl: string
   likes: number
   comments: number
   shares: number
@@ -55,13 +58,14 @@ export default function FYPPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-//   const [volume, setVolume] = useState(80)
-//   const [isMuted, setIsMuted] = useState(false)
+  const [volume, setVolume] = useState(80)
+  const [isMuted, setIsMuted] = useState(false)
   const [showControls, setShowControls] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
-  const [duration] = useState(180) // 3 minutes demo
+  const [duration, setDuration] = useState(180) // Default 3 minutes
   
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const categories = [
@@ -80,6 +84,7 @@ export default function FYPPage() {
       description: "Walter White's transformation reaches its climax in this unforgettable scene from the series finale.",
       category: "shows",
       thumbnail: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=800&h=1200&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       likes: 12500,
       comments: 2450,
       shares: 1320,
@@ -96,6 +101,7 @@ export default function FYPPage() {
       description: "The epic conclusion to season 4 with mind-bending revelations and spectacular visual effects.",
       category: "trending",
       thumbnail: "https://images.unsplash.com/photo-1602562086757-78809c34ceb4?q=80&w=1169&auto=format&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       likes: 23200,
       comments: 4680,
       shares: 2520,
@@ -112,6 +118,7 @@ export default function FYPPage() {
       description: "A powerful moment from season 3 showcasing Olivia Colman's brilliant portrayal of Queen Elizabeth II.",
       category: "shows",
       thumbnail: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=800&h=1200&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       likes: 9800,
       comments: 1340,
       shares: 1210,
@@ -128,6 +135,7 @@ export default function FYPPage() {
       description: "The iconic first game that took the world by storm. Tense, shocking, and unforgettable.",
       category: "trending",
       thumbnail: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&h=1200&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
       likes: 34200,
       comments: 6920,
       shares: 4680,
@@ -144,6 +152,7 @@ export default function FYPPage() {
       description: "Wednesday Addams' viral dance scene that became a cultural phenomenon overnight.",
       category: "for-you",
       thumbnail: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=1200&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
       likes: 25600,
       comments: 4240,
       shares: 3890,
@@ -160,6 +169,7 @@ export default function FYPPage() {
       description: "Geralt of Rivia showcasing his unmatched swordsmanship in this breathtaking battle sequence.",
       category: "movies",
       thumbnail: "https://images.unsplash.com/photo-1699147561362-3945a202b29c?q=80&w=1332&auto=format&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
       likes: 18800,
       comments: 2720,
       shares: 1560,
@@ -176,6 +186,7 @@ export default function FYPPage() {
       description: "A stylish montage of Emily's most iconic Parisian outfits from season 2.",
       category: "shows",
       thumbnail: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=800&h=1200&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
       likes: 12100,
       comments: 2380,
       shares: 1240,
@@ -192,6 +203,7 @@ export default function FYPPage() {
       description: "An elegant and romantic ballroom scene featuring stunning costumes and choreography.",
       category: "for-you",
       thumbnail: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&h=1200&fit=crop",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
       likes: 19900,
       comments: 3540,
       shares: 2380,
@@ -209,16 +221,105 @@ export default function FYPPage() {
     setVideos(mockVideos.map(video => ({ ...video, isLiked: false, isSaved: false })))
   }, [])
 
-  // Simulate video playback
+  // Handle video playback on scroll
   useEffect(() => {
-    let interval: NodeJS.Timeout
-    if (isPlaying && currentTime < duration) {
-      interval = setInterval(() => {
-        setCurrentTime(prev => Math.min(prev + 1, duration))
-      }, 1000)
+    // Stop all videos first
+    videoRefs.current.forEach(video => {
+      if (video) {
+        video.pause()
+        video.currentTime = 0
+      }
+    })
+
+    // Play the active video
+    const activeVideo = videoRefs.current[activeIndex]
+    if (activeVideo) {
+      activeVideo.play().then(() => {
+        setIsPlaying(true)
+      }).catch((error) => {
+        console.log("Autoplay prevented:", error)
+      })
     }
-    return () => clearInterval(interval)
-  }, [isPlaying, currentTime, duration])
+  }, [activeIndex])
+
+  // Update current time and duration
+  useEffect(() => {
+    const activeVideo = videoRefs.current[activeIndex]
+    if (!activeVideo) return
+
+    const updateTime = () => {
+      setCurrentTime(activeVideo.currentTime)
+    }
+
+    const updateDuration = () => {
+      setDuration(activeVideo.duration || 180)
+    }
+
+    activeVideo.addEventListener('timeupdate', updateTime)
+    activeVideo.addEventListener('loadedmetadata', updateDuration)
+
+    return () => {
+      activeVideo.removeEventListener('timeupdate', updateTime)
+      activeVideo.removeEventListener('loadedmetadata', updateDuration)
+    }
+  }, [activeIndex])
+
+  // Handle play/pause
+  const togglePlay = () => {
+    const activeVideo = videoRefs.current[activeIndex]
+    if (!activeVideo) return
+
+    if (isPlaying) {
+      activeVideo.pause()
+    } else {
+      activeVideo.play()
+    }
+    setIsPlaying(!isPlaying)
+  }
+
+  // Handle volume change
+  useEffect(() => {
+    const activeVideo = videoRefs.current[activeIndex]
+    if (!activeVideo) return
+
+    activeVideo.volume = volume / 100
+    activeVideo.muted = isMuted
+  }, [activeIndex, volume, isMuted])
+
+  // Handle video ended
+  const handleVideoEnd = useCallback(() => {
+    setIsPlaying(false)
+    setCurrentTime(0)
+    
+    // Move to next video if not the last
+    if (activeIndex < videos.length - 1) {
+      const videoHeight = scrollContainerRef.current?.clientHeight || 0
+      scrollContainerRef.current?.scrollTo({
+        top: (activeIndex + 1) * videoHeight,
+        behavior: 'smooth'
+      })
+    }
+  }, [activeIndex, videos.length])
+
+  // Set up video event listeners
+  useEffect(() => {
+    const activeVideo = videoRefs.current[activeIndex]
+    if (!activeVideo) return
+
+    const handlePlay = () => setIsPlaying(true)
+    const handlePause = () => setIsPlaying(false)
+    const handleEnded = () => handleVideoEnd()
+
+    activeVideo.addEventListener('play', handlePlay)
+    activeVideo.addEventListener('pause', handlePause)
+    activeVideo.addEventListener('ended', handleEnded)
+
+    return () => {
+      activeVideo.removeEventListener('play', handlePlay)
+      activeVideo.removeEventListener('pause', handlePause)
+      activeVideo.removeEventListener('ended', handleEnded)
+    }
+  }, [activeIndex, handleVideoEnd])
 
   // Auto-hide controls
   useEffect(() => {
@@ -248,26 +349,8 @@ export default function FYPPage() {
     
     if (newIndex !== activeIndex) {
       setActiveIndex(newIndex)
-      setIsPlaying(false)
     }
   }, [activeIndex])
-
-  // Navigate to video
-//   const navigateToVideo = (direction: 'up' | 'down') => {
-//     if (!scrollContainerRef.current) return
-    
-//     const newIndex = direction === 'down' 
-//       ? Math.min(activeIndex + 1, videos.length - 1)
-//       : Math.max(activeIndex - 1, 0)
-    
-//     setActiveIndex(newIndex)
-    
-//     const videoHeight = scrollContainerRef.current.clientHeight
-//     scrollContainerRef.current.scrollTo({
-//       top: newIndex * videoHeight,
-//       behavior: 'smooth'
-//     })
-//   }
 
   // Load more videos
   const handleLoadMore = useCallback(() => {
@@ -329,6 +412,20 @@ export default function FYPPage() {
   }
 
   const progressPercentage = (currentTime / duration) * 100
+
+  // Handle seeking
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const progressBar = e.currentTarget
+    const rect = progressBar.getBoundingClientRect()
+    const percent = (e.clientX - rect.left) / rect.width
+    const newTime = percent * duration
+    
+    const activeVideo = videoRefs.current[activeIndex]
+    if (activeVideo) {
+      activeVideo.currentTime = newTime
+      setCurrentTime(newTime)
+    }
+  }
 
   return (
     <div className="flex w-full h-screen bg-black text-white overflow-hidden">
@@ -463,15 +560,19 @@ export default function FYPPage() {
               >
                 {/* Video Background */}
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-black">
-                  {/* Thumbnail Background */}
-                  <div 
-                    className="absolute inset-0 opacity-60"
-                    style={{
-                      backgroundImage: `url(${video.thumbnail})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                    }}
+                  {/* Video Element */}
+                  <video
+                    ref={el => videoRefs.current[index] = el}
+                    className="absolute inset-0 w-full h-full object-cover opacity-100"
+                    src={video.videoUrl}
+                    poster={video.thumbnail}
+                    loop={false}
+                    muted={index !== activeIndex}
+                    playsInline
+                    preload="metadata"
                   />
+                  
+                  {/* Video Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                 </div>
 
@@ -542,10 +643,10 @@ export default function FYPPage() {
                   </div>
 
                   {/* Video Controls */}
-                  <div className={`mt-8 transition-opacity duration-300 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}>
+                  <div className={`mt-8 transition-opacity duration-300 ${showControls || !isPlaying || index === activeIndex ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="flex items-center gap-4">
                       <button
-                        onClick={() => setIsPlaying(!isPlaying)}
+                        onClick={togglePlay}
                         className="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition-colors"
                       >
                         {isPlaying ? (
@@ -554,6 +655,30 @@ export default function FYPPage() {
                           <Play className="w-6 h-6 ml-1" />
                         )}
                       </button>
+                      
+                      {/* Volume Control */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setIsMuted(!isMuted)}
+                          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                        >
+                          {isMuted ? (
+                            <VolumeX className="w-5 h-5" />
+                          ) : (
+                            <Volume2 className="w-5 h-5" />
+                          )}
+                        </button>
+                        {!isMuted && (
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={volume}
+                            onChange={(e) => setVolume(Number(e.target.value))}
+                            className="w-24 accent-red-600"
+                          />
+                        )}
+                      </div>
                       
                       <button className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-colors">
                         <Info className="w-4 h-4" />
@@ -583,7 +708,10 @@ export default function FYPPage() {
                         <span>{formatTime(currentTime)}</span>
                         <span>{formatTime(duration)}</span>
                       </div>
-                      <div className="w-full h-1 bg-gray-700 rounded-full overflow-hidden">
+                      <div 
+                        className="w-full h-1 bg-gray-700 rounded-full overflow-hidden cursor-pointer"
+                        onClick={handleSeek}
+                      >
                         <div 
                           className="h-full bg-red-600 transition-all duration-300"
                           style={{ width: `${progressPercentage}%` }}
@@ -637,58 +765,6 @@ export default function FYPPage() {
             </div>
           )}
         </div>
-
-        {/* Navigation Buttons */}
-        {/* <div className="absolute right-6 top-1/2 transform -translate-y-1/2 hidden md:flex flex-col gap-4">
-          <button
-            onClick={() => navigateToVideo('up')}
-            disabled={activeIndex === 0}
-            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-              activeIndex === 0
-                ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                : 'bg-white/10 hover:bg-white/20 text-white'
-            }`}
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={() => navigateToVideo('down')}
-            disabled={activeIndex === filteredVideos.length - 1}
-            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-              activeIndex === filteredVideos.length - 1
-                ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                : 'bg-white/10 hover:bg-white/20 text-white'
-            }`}
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-        </div> */}
-
-        {/* Volume Control */}
-
-        {/* <div className="absolute left-6 top-1/2 transform -translate-y-1/2 hidden md:flex flex-col items-center gap-2">
-          <button
-            onClick={() => setIsMuted(!isMuted)}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </button>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={isMuted ? 0 : volume}
-            onChange={(e) => {
-              const value = parseInt(e.target.value)
-              setVolume(value)
-              setIsMuted(value === 0)
-            }}
-            className="h-32 w-1 bg-gray-700 rounded-full appearance-none [writing-mode:vertical-lr] [direction:rtl]"
-            style={{
-              background: `linear-gradient(to top, #E50914 0%, #E50914 ${volume}%, #4B5563 ${volume}%, #4B5563 100%)`
-            }}
-          />
-        </div> */}
 
       </div>
     </div>
