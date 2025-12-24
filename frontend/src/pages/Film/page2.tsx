@@ -34,7 +34,7 @@ const NetflixPlayer: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hello! I'm your Netflix AI Assistant. I can help you with anything about 'Big Buck Bunny' - ask about the plot, cast, or get personalized recommendations!",
+      content: "Hello! I'm your Netflix AI Assistant. I can help you with anything about 'Cathleen and Raven' - ask about the plot, cast, or get personalized recommendations!",
     },
   ]);
   const [inputMessage, setInputMessage] = useState<string>('');
@@ -46,7 +46,7 @@ const NetflixPlayer: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Video URL - using a sample video that works well
-  const videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  const videoUrl = "/video-dummy.mp4";
   const videoPoster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=1200&fit=crop";
 
   // Format time helper function
@@ -182,15 +182,15 @@ const NetflixPlayer: React.FC = () => {
     const message = userMessage.toLowerCase();
     
     if (message.includes('plot') || message.includes('story') || message.includes('about')) {
-      return "Big Buck Bunny is a mind-bending sci-fi thriller about Dr. Sarah Chen, a quantum physicist who discovers a way to communicate with parallel dimensions. As she navigates through different timelines, she must prevent a catastrophic event that threatens to collapse all realities. The film explores themes of destiny, choice, and the interconnectedness of all things.";
-    } else if (message.includes('cast') || message.includes('actor') || message.includes('actress')) {
-      return "The film stars Emma Stone as Dr. Sarah Chen, bringing emotional depth to the brilliant physicist. Oscar Isaac plays Marcus Vale, her mysterious colleague with hidden motives. Supporting cast includes Michael B. Jordan as Agent Harris and Florence Pugh as Dr. Elena Rodriguez. The ensemble delivers powerful performances under Denis Villeneuve's visionary direction.";
+      return "Cathleen and Raven is a mind-bending sci-fi thriller about Dr. Sarah Chen, a quantum physicist who discovers a way to communicate with parallel dimensions. As she navigates through different timelines, she must prevent a catastrophic event that threatens to collapse all realities. The film explores themes of destiny, choice, and the interconnectedness of all things.";
+    } else if (message.includes('Cathleen') || message.includes('jokes') || message.includes('Raven') || message.includes('scene')) {
+      return "Jokes tersebut menggunakan ironi sebagai bentuk kritik ringan. Karena penyampaiannya santai, pesannya tetap tersampaikan tanpa terkesan menggurui atau terlalu serius. Makanya di scene itu Raven ngomong ke Cathleen (calon pasangannya) yang lagi lalai, tapi dibungkus dengan jokes supaya tidak menyakiti perasaannya Cath.";
     } else if (message.includes('ending') || message.includes('end') || message.includes('conclusion')) {
       return "Without spoilers: The ending reveals that every choice creates a new timeline, and Sarah learns that true power lies in accepting all possibilities. The final scene suggests that the 'echoes' she's been hearing are actually versions of herself from other dimensions working together—a beautiful metaphor for self-acceptance and unity across all realities.";
     } else if (message.includes('similar') || message.includes('recommend') || message.includes('like this')) {
-      return "If you enjoy Big Buck Bunny, I recommend: 1) 'Arrival' for its intelligent sci-fi concepts, 2) 'Inception' for mind-bending reality shifts, 3) 'Everything Everywhere All at Once' for multidimensional storytelling, and 4) 'Interstellar' for its emotional sci-fi depth. All are available on Netflix!";
+      return "If you enjoy Cathleen and Raven, I recommend: 1) 'Arrival' for its intelligent sci-fi concepts, 2) 'Inception' for mind-bending reality shifts, 3) 'Everything Everywhere All at Once' for multidimensional storytelling, and 4) 'Interstellar' for its emotional sci-fi depth. All are available on Netflix!";
     } else if (message.includes('director') || message.includes('directed')) {
-      return "Big Buck Bunny is directed by Denis Villeneuve, known for his masterful work on Dune, Arrival, and Blade Runner 2049. His signature style of grand visuals, atmospheric storytelling, and intellectual depth is evident throughout this film. This marks his first collaboration with cinematographer Greig Fraser on a Netflix Original.";
+      return "Cathleen and Raven is directed by Denis Villeneuve, known for his masterful work on Dune, Arrival, and Blade Runner 2049. His signature style of grand visuals, atmospheric storytelling, and intellectual depth is evident throughout this film. This marks his first collaboration with cinematographer Greig Fraser on a Netflix Original.";
     } else if (message.includes('time') || message.includes('duration') || message.includes('long')) {
       return "The film runtime is 2 hours and 18 minutes. It premiered on Netflix on March 15, 2024, and has been streamed over 85 million times in its first month. The pacing is deliberate, allowing the complex narrative to unfold naturally while keeping viewers engaged with stunning visuals and thought-provoking concepts.";
     } else if (message.includes('rating') || message.includes('review') || message.includes('score')) {
@@ -198,7 +198,7 @@ const NetflixPlayer: React.FC = () => {
     } else if (message.includes('award') || message.includes('nomination') || message.includes('oscar')) {
       return "The film has received 6 Oscar nominations including Best Picture, Best Director (Denis Villeneuve), Best Actress (Emma Stone), Best Cinematography, Best Visual Effects, and Best Original Score. It won the Critics' Choice Award for Best Sci-Fi Film and has 8 nominations for the upcoming Stream Awards.";
     } else {
-      return "I'm your dedicated Netflix AI Assistant! I can help you understand Big Buck Bunny better—ask about the plot, characters, themes, or recommendations for similar movies. Feel free to ask anything specific about this film or if you'd like me to explain any particular scene you're watching right now!";
+      return "I'm your dedicated Netflix AI Assistant! I can help you understand Cathleen and Raven better—ask about the plot, characters, themes, or recommendations for similar movies. Feel free to ask anything specific about this film or if you'd like me to explain any particular scene you're watching right now!";
     }
   };
 
@@ -287,7 +287,7 @@ const NetflixPlayer: React.FC = () => {
                 </div>
               </button>
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">Big Buck Bunny</div>
+                <div className="text-2xl font-bold text-white">Cathleen and Raven</div>
                 <div className="text-sm text-gray-400 mt-1">Now Playing • S1:E1</div>
               </div>
               <div className="w-32" />
@@ -490,7 +490,7 @@ const NetflixPlayer: React.FC = () => {
             </button>
           </div>
           <div className="mt-6">
-            <div className="text-sm text-gray-400 mb-3">Ask about Big Buck Bunny:</div>
+            <div className="text-sm text-gray-400 mb-3">Ask about Cathleen and Raven:</div>
           </div>
         </div>
 
